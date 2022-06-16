@@ -11,7 +11,7 @@ from api.serializers import PackageSerializer
 @api_view(['GET'])
 def getPackage(request: HttpRequest, package_name: str) -> apiResponse:
     package = get_object_or_404(Package, name=package_name)
-    serializer = PackageSerializer(package)
+    serializer = PackageSerializer(package, exclude=["authors"])
     return apiResponse(serializer.data)
 
 

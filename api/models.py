@@ -17,7 +17,7 @@ class jgetUser(models.Model):
 class Package(models.Model):
     name = models.CharField(max_length=120, unique=True)
     authors = models.ManyToManyField(jgetUser)
-    dependencies = models.CharField(max_length=2000)
+    dependencies = models.CharField(max_length=2000, blank=True)
 
     def __str__(self) -> str:
         return self.name
