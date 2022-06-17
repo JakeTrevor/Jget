@@ -5,12 +5,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-def test():
+def test(request):
     return HttpResponse("Placeholder for Jget")
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', test),
+    path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    path('auth/', include('authentication.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

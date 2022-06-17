@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'rest_framework',
-    'api'
+    'knox',
+    'api',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -105,6 +107,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'knox.auth.TokenAuthentication',
+    ),
+}
+
+REST_KNOX = {
+    'TOKEN_TTL': None,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
