@@ -28,7 +28,7 @@ class Package(models.Model):
 
 class File(models.Model):
     fileName = models.CharField(max_length=300)
-    content = models.TextField()
+    content = models.TextField(blank=True)
     package = models.ForeignKey(
         Package, related_name="files", on_delete=models.CASCADE)
 
