@@ -14,6 +14,18 @@ class UserRelatedField(serializers.RelatedField):
         return jgetUser.objects.get(user=user)
 
 
+# i beleive i need this in order to facilitate proper lookup
+# todo test this ^^
+class PackageRelatedField(serializers.RelatedField):
+    queryset = Package.objects.all()
+
+    def to_representation(self, value):
+        return str(value)
+
+    def to_internal_value(self, data):
+        return Package.objects.get(name=data)
+
+
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
@@ -23,6 +35,7 @@ class FileSerializer(serializers.ModelSerializer):
 class PackageSerializer(serializers.ModelSerializer):
     files = FileSerializer(many=True)
     authors = UserRelatedField(many=True)
+    dependencies = PackageRelatedField(many=True)
 
     class Meta:
         model = Package
@@ -34,9 +47,11 @@ class PackageSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         files = validated_data.pop("files", [])
         authors = validated_data.pop("authors", [])
+        dependencies = validated_data.pop("dependencies", [])
         package = Package(**validated_data)
         package.save()
         package.authors.set(authors)
+        package.dependencies.set(dependencies)
         package.save()
         for f in files:
             dbFile = File(package=package, **f)

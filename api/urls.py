@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path("get/<slug:package_name>/", views.getPackage),
-    path("upload/", views.createPackage),
+    path("put/", views.createPackage),
 ]

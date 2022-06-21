@@ -12,8 +12,8 @@ class jgetUserAdmin(admin.ModelAdmin):
 
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'dependencies')
-    raw_id_fields = ('authors',)
+    list_display = ('id', 'name')
+    raw_id_fields = ('authors', 'dependencies')
     search_fields = ('name',)
 
 

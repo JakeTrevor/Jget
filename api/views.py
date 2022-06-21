@@ -22,5 +22,6 @@ def getPackage(request: apiRequest, package_name: str) -> apiResponse:
 def createPackage(request: apiRequest) -> apiResponse:
     serializer = PackageSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save()
+        package = serializer.save()
+    
     return apiResponse(serializer.data)
