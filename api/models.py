@@ -4,19 +4,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class jgetUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return self.user.username
-
-    def __repr__(self) -> str:
-        return f"<jgetUser {self.user.username}>"
-
-
 class Package(models.Model):
     name = models.CharField(max_length=120, unique=True)
-    authors = models.ManyToManyField(jgetUser)
+    authors = models.ManyToManyField(User, related_name="collaborations")
     dependencies = models.ManyToManyField("Package", blank=True)
 
     def __str__(self) -> str:

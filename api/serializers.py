@@ -1,21 +1,19 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from api.models import File, Package, jgetUser
+from django.core.exceptions import PermissionDenied
+from api.models import File, Package
 
 
 class UserRelatedField(serializers.RelatedField):
-    queryset = jgetUser.objects.all()
+    queryset = User.objects.all()
 
     def to_representation(self, value) -> str:
         return str(value)
 
-    def to_internal_value(self, data) -> jgetUser:
-        user = User.objects.get(username=data)
-        return jgetUser.objects.get(user=user)
+    def to_internal_value(self, data) -> User:
+        return User.objects.get(username=data)
 
 
-# i beleive i need this in order to facilitate proper lookup
-# todo test this ^^
 class PackageRelatedField(serializers.RelatedField):
     queryset = Package.objects.all()
 
