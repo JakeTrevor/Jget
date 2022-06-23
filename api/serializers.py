@@ -24,6 +24,7 @@ class PackageRelatedField(serializers.RelatedField):
         return Package.objects.get(name=data)
 
 
+# todo improve serializer
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
@@ -46,15 +47,39 @@ class PackageSerializer(serializers.ModelSerializer):
         files = validated_data.pop("files", [])
         authors = validated_data.pop("authors", [])
         dependencies = validated_data.pop("dependencies", [])
+
         package = Package(**validated_data)
         package.save()
         package.authors.set(authors)
         package.dependencies.set(dependencies)
         package.save()
         for f in files:
-            dbFile = File(package=package, **f)
-            dbFile.save()
+            File(package=package, **f).save()
         return package
+
+    def update(self, instance: Package, validated_data):
+        user = validated_data.pop("creator")
+        files = validated_data.pop("files", [])
+        authors = validated_data.pop("authors", [])
+        dependencies = validated_data.pop("dependencies", [])
+
+        if not instance.isAuthor(user):
+            raise PermissionDenied
+
+        instance.authors.set(authors)
+        instance.dependencies.set(dependencies)
+        instance.save()
+
+        for f in files:
+            File.objects.update_or_create(package=instance, **f)
+
+        fnames = [each["fileName"] for each in files]
+
+        to_delete = File.objects.filter(
+            package=instance).exclude(fileName__in=fnames)
+        [each.delete() for each in to_delete]
+
+        return instance
 
     def __init__(self, *args, **kwargs):
         exclude = kwargs.pop('exclude', None)

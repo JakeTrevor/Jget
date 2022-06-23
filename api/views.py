@@ -1,8 +1,9 @@
-from rest_framework.request import Request as apiRequest
 from django.shortcuts import get_object_or_404
+
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request as apiRequest
 from rest_framework.response import Response as apiResponse
-from rest_framework.decorators import api_view, parser_classes
-from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view, permission_classes
 
 from api.models import Package
 from api.serializers import PackageSerializer
@@ -18,10 +19,12 @@ def getPackage(request: apiRequest, package_name: str) -> apiResponse:
 
 
 @api_view(['POST'])
-@parser_classes([JSONParser])
-def createPackage(request: apiRequest) -> apiResponse:
-    serializer = PackageSerializer(data=request.data)
+@permission_classes([IsAuthenticated])
+def createPackage(request: apiRequest, package_name="") -> apiResponse:
+    pkg = Package.objects.filter(name=package_name).first()
+
+    serializer = PackageSerializer(pkg, data=request.data)
     if serializer.is_valid(raise_exception=True):
-        package = serializer.save()
-    
+        pkg = serializer.save(creator=request.user)
+
     return apiResponse(serializer.data)
