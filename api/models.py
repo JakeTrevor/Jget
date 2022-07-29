@@ -11,6 +11,9 @@ class Package(models.Model):
     authors = models.ManyToManyField(User, related_name="collaborations")
     dependencies = models.ManyToManyField("Package", blank=True)
 
+    views = models.IntegerField(default=0)
+    downloads = models.IntegerField(default=0)
+
     def __str__(self) -> str:
         return self.name
 
