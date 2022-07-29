@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta name="description" content="JGET package manager" />
+    <meta name="keywords" content="Lua, Package manager, Computercraft" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- import fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
+          rel="stylesheet"/>
+    <!-- setup base stylesheet (controls basics for all pages) -->
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/base.css' %}"/>
+    <link rel="icon" href="{% static 'assets/logo.svg' %}" />
+    <title>
+      {% block title %}
+      {% endblock title %}
+    </title>
+    {% block meta %}
+    {% endblock meta %}
+  </head>
+  <body>
+    <header>
+      <a class="link" href="{% url "frontend:index" %}">
+        <img id="logo" src="{% static 'assets/logo.png' %}" alt="logo" />
+      </a>
+      <a class="header_item link" href="">
+        <h1>explore packages</h1>
+      </a>
+      <a class="header_item link" href="">
+        <h1>contact us</h1>
+      </a>
+      {% if user.is_authenticated %}
+        <div class="header_item" id="logged_in_profile">
+          <a class="link" id="logout" href="{% url 'auth_logout' %}">
+            <h1>Log Out</h1>
+          </a>
+          <a class="link" href="">Hi {{ user.get_username }}</a>
+        </div>
+      {% else %}
+        <a class="header_item link" href="{% url 'auth_login' %}">
+          <h1>Log In</h1>
+        </a>
+      {% endif %}
+    </header>
+    <div class="body_container">
+      {% block content %}
+      {% endblock content %}
+    </div>
+  </body>
+</html>

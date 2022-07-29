@@ -1,3 +1,29 @@
 {
-    "python.formatting.provider": "autopep8"
+    "python.formatting.provider": "autopep8",
+    "material-icon-theme.folders.associations": {
+        "jget": "src",
+        "staticfiles": "resource",
+        "migrations":"python",
+        "django_registration":"secure",
+    },
+    "auto-close-tag.activationOnLanguage": [
+        "xml",
+        "php",
+        "blade",
+        "ejs",
+        "jinja",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "plaintext",
+        "markdown",
+        "vue",
+        "liquid",
+        "erb",
+        "lang-cfml",
+        "cfml",
+        "HTML (Eex)",
+        "django-html"
+    ]
 }
