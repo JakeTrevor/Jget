@@ -14,3 +14,7 @@ def index(request: HttpRequest) -> HttpResponse:
         'packages': Package.objects.count(),
     }
     return render(request, 'home.html', context=context)
+
+
+class get_JGET(TemplateView):
+    template_name = "get_jget.html"

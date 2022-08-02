@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block meta %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/code.css' %}"/>
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/get_jget.css' %}"/>
+    <script src="{% static 'scripts/copy.js' %}"></script>
+{% endblock meta %}
+{% block title %}
+    JGET - get JGET
+{% endblock title %}
+{% block content %}
+    <h1>Downloading the Client</h1>
+    <p>To use JGET, you will need a client that can consume the API provided. There are two options availible.</p>
+    <h2>Python client</h2>
+    <p>
+        If you are planning on using JGET on your regular desktop (perhaps because you prefer to develop there), then the python client is reccomended. There is a <a>windows installer</a> or an <a>executable</a> if you prefer.
+    </p>
+    <p>
+        If you are on linux (or if this is how you prefer to work),  you can find the source code <a>on my github</a>. I assume, as the gigachad you no doubt are, that you understand how to run/build this so it works for you.
+    </p>
+    <h2>Lua Client</h2>
+    however, JGET is intended as a package manager for Computercraft, so it also has a client written in lua. the lua client is a single file and you can download it directly onto craftOS with the following command:
+    </  p>
+    <code>
+        <p id="wget_command" class="copy_spread">
+            wget https://jget.trevor.fish/getjget/jget.lua
+            <button id="copy_button" onclick="copy('wget_command')">
+                <img src={% static "assets/copy.svg" %} height="20em" alt="copy"/>
+            </button>
+        </p>
+    </code>
+    <h1>Now what?</h1>
+    <p>
+        Once you have downloaded and installed your client of choice, you can start downloading packages as you wish. downloading packages does not require you to log in. If you want to upload however, you will need to log in with the command.
+    </p>
+    <code>
+        <p id="login_command" class="copy_spread">
+            jget login
+            <button id="copy_button" onclick="copy('login_command')">
+                <img src={% static "assets/copy.svg" %} height="20em" alt="copy"/>
+            </button>
+        </p>
+    </code>
+    <p>both clients have extensive built-in help, which can be accessed with the "-h" flag.</p>
+{% endblock content %}
