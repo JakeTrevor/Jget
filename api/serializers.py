@@ -63,7 +63,7 @@ class PackageSerializer(serializers.ModelSerializer):
         authors = validated_data.pop("authors", [])
         dependencies = validated_data.pop("dependencies", [])
 
-        if not instance.isAuthor(user):
+        if not instance.is_owner(user):
             raise PermissionDenied
 
         instance.authors.set(authors)

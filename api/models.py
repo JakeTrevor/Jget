@@ -20,8 +20,11 @@ class Package(models.Model):
     def __repr__(self) -> str:
         return f"<Package {self.name}>"
 
-    def isAuthor(self, user: User):
-        return (user in self.authors.all()) or (user == self.creator)
+    def is_owner(self, user: User) -> bool:
+        return (user == self.creator)
+
+    def is_contributor(self, user: User) -> bool:
+        return (user in self.authors.all())
 
 
 class File(models.Model):
