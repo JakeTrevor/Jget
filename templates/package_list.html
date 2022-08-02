@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block meta %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/package_list.css' %}"/>
+{% endblock meta %}
+{% block title %}
+    JGET - Explore
+{% endblock title %}
+{% block content %}
+    <ul class="package_list">
+        {% for package in page_obj %}
+            <li class="package">
+                <a href="{% url 'frontend:package' package.name %}" class="package_link">
+                    <div class="details">
+                        <h2>{{ package.name }}</h2>
+                        <div class="detail">by {{ package.creator }}</div>
+                    </div>
+                    <div class="details">
+                        <div class="detail">{{ package.downloads }} downloads</div>
+                        <div class="detail">{{ package.views }} views</div>
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="page_controls">
+        <a href="?page=1">First</a>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% endif %}
+        <!--  -->
+        <strong>{{ page_obj.number }}</strong>
+        <!--  -->
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% endif %}
+        <a href="?page={{ page_obj.pagianator.num_pages }}">Last</a>
+    </div>
+{% endblock content %}
