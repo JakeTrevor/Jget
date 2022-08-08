@@ -28,7 +28,7 @@
             <h1>Owner Controls</h1>
             <div id="controls">
                 {% if is_owner %}
-                    <button class="button">Delete</button>
+                    <a class="button" href="{% url "frontend:deletePackage" package %}">Delete</a>
                     <button class="button">Transfer Ownership</button>
                 {% endif %}
                 {% if is_contributor %}

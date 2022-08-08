@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}
+    JGET - delete {{ object }}
+{% endblock title %}
+{% block content %}
+    <h1>You're about to do something permanent...</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        {{ form }}
+        <input type="submit" value="Confirm"/>
+    </form>
+{% endblock content %}

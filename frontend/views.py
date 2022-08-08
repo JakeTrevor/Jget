@@ -1,7 +1,7 @@
 from typing import List, Any, Dict
 
 from django.http import HttpRequest, HttpResponse
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, DeleteView
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 
 from api.models import Package
+from frontend.mixins import isOwnerMixin
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -32,7 +33,7 @@ class explore(ListView):
         return ["explore.html"]
 
 
-class PackageDetailView(DetailView):
+class viewPackage(DetailView):
     slug_field: str = "name"
     model = Package
     template_name = "package.html"
@@ -45,6 +46,11 @@ class PackageDetailView(DetailView):
         context["is_owner"] = package.is_owner(user)
         context["is_contributor"] = package.is_contributor(user)
         return context
+
+
+class deletePackage(isOwnerMixin, DeleteView):
+    model = Package
+    template_name = "delete.html"
 
 
 class UserDetailView(DetailView):
