@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% load package_list %}
+{% block meta %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/package_list.css' %}"/>
+{% endblock meta %}
+{% block title %}
+    JGET - Explore
+{% endblock title %}
+{% block content %}
+    {% package_list page_obj %}
+{% endblock content %}

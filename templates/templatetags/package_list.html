@@ -1,0 +1,25 @@
+<ul class="package_list">
+    {% for package in page %}
+        <li class="package">
+            <a href="{% url 'frontend:package' package.name %}" class="package_link">
+                <div class="details">
+                    <h2>{{ package.name }}</h2>
+                    <div class="detail">by {{ package.creator }}</div>
+                </div>
+                <div class="details">
+                    <div class="detail">{{ package.downloads }} downloads</div>
+                    <div class="detail">{{ package.views }} views</div>
+                </div>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+<div class="page_controls">
+    {% for i in page.paginator.get_elided_page_range %}
+        {% if page.number == i %}
+            <strong>{{ i }}</strong>
+        {% else %}
+            <a href="?page={{ i }}">{{ i }}</a>
+        {% endif %}
+    {% endfor %}
+</div>

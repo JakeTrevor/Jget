@@ -28,7 +28,7 @@ class explore(ListView):
     model = Package
 
     def get_template_names(self) -> List[str]:
-        return ["package_list.html"]
+        return ["explore.html"]
 
 
 
