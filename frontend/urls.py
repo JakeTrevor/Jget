@@ -11,6 +11,6 @@ urlpatterns = [
     path('package/<slug:slug>/delete',
          deletePackage.as_view(), name="deletePackage"),
 
-    path('manage_account', manageAccount, name="manage_account"),
+    path('manage_account', manageAccount.as_view(), name="manage_account"),
     path('profile/<slug:slug>/', UserDetailView.as_view(), name="profile"),
 ]

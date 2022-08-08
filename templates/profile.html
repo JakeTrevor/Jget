@@ -5,17 +5,26 @@
     <link rel="stylesheet"
           type="text/css"
           href="{% static 'styles/package_list.css' %}"/>
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/profile.css' %}"/>
 {% endblock meta %}
 {% block title %}
     JGET - {{ user.get_username }}
 {% endblock title %}
 {% block content %}
-    <h1>{{ user.get_username }}</h1>
-    <p>Owns {{ num_owned }}</p>
-    <p>Contributes to {{ num_contribs }}</p>
+    <h1 class="title">{{ user.get_username }}</h1>
     <section>
-        <h2>User Packages</h2>
+        <div id="stats">
+            <p>Owns {{ num_owned }}</p>
+            <p>Contributes to {{ num_contribs }}</p>
+        </div>
+        {% block controls %}
+        {% endblock controls %}
+    </section>
+    <div>
+        <h1 class="title">User Packages</h1>
         <h3>All the packages this user owns or contributes to</h3>
         {% package_list page %}
-    </section>
+    </div>
 {% endblock content %}

@@ -3,7 +3,7 @@
     JGET - delete {{ object }}
 {% endblock title %}
 {% block content %}
-    <h1>You're about to do something permanent...</h1>
+    <h1 class="title">You're about to do something permanent...</h1>
     <form method="post">
         {% csrf_token %}
         <p>Are you sure you want to delete "{{ object }}"?</p>

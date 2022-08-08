@@ -1,7 +1,5 @@
 .package_list {
   position: relative;
-  background-color: #bbbbbb;
-  border-radius: 5px;
   margin-bottom: 10px;
 }
 
@@ -10,13 +8,16 @@
   flex-direction: column;
 
   padding: 12px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+
+  box-shadow: 0 0.5px 1px 1px rgba(0, 0, 0, 10%);
   background-color: white;
+
   transition: all 1s;
-  margin-bottom: 1px;
 }
 
 .package:hover {
-  border-radius: 5px;
   transform: scale(110%);
   box-shadow: 0 3px 1px 1px rgba(0, 0, 0, 10%);
 }
@@ -43,6 +44,6 @@
 .page_controls {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }

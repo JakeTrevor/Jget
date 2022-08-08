@@ -3,7 +3,7 @@ from typing import List, Any, Dict
 from django.http import HttpRequest, HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView, DeleteView
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 
 from django.contrib.auth.models import User
@@ -26,11 +26,16 @@ class get_JGET(TemplateView):
 
 
 class explore(ListView):
-    paginate_by: int = 2
+    paginate_by: int = 5
     model = Package
 
     def get_template_names(self) -> List[str]:
         return ["explore.html"]
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["list_title"] = "Popular Packages"
+        return context
 
 
 class viewPackage(DetailView):
@@ -61,14 +66,12 @@ class UserDetailView(DetailView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        target_user: User = context["user"]
-        auth_user: User = self.request.user
-        context["authenticated"] = target_user == auth_user
+        user: User = context["user"]
 
         page = self.request.GET.get("page", 1)
 
-        packages = target_user.packages.all()
-        collabs = target_user.collaborations.all()
+        packages = user.packages.all()
+        collabs = user.collaborations.all()
 
         context["num_contribs"] = len(collabs)
         context["num_owned"] = len(packages)
@@ -81,6 +84,25 @@ class UserDetailView(DetailView):
         return context
 
 
-@login_required()
-def manageAccount(request: HttpRequest) -> HttpResponse:
-    return render(request, "manage_profile.html")
+class manageAccount(LoginRequiredMixin, TemplateView):
+    template_name = "manage_account.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        user: User = self.request.user
+
+        page = self.request.GET.get("page", 1)
+
+        packages = user.packages.all()
+        collabs = user.collaborations.all()
+
+        context["num_contribs"] = len(collabs)
+        context["num_owned"] = len(packages)
+
+        packages = (packages | collabs).distinct().order_by("-downloads")
+        paginator = Paginator(packages, 5)
+
+        context["page"] = paginator.page(page)
+
+        return context

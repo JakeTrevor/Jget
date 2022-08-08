@@ -7,8 +7,11 @@ from django.core.exceptions import PermissionDenied
 from api.models import Package
 
 
-class isOwnerMixin(LoginRequiredMixin):
+class packageMixin():
     slug_field: str = "name"
+
+
+class isOwnerMixin(packageMixin, LoginRequiredMixin):
 
     def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
         package: Package = self.get_object()

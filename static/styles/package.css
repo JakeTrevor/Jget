@@ -3,16 +3,6 @@
   flex-direction: column;
 }
 
-section {
-  display: flex;
-  flex-direction: column;
-  margin: 10px 0;
-  padding: 5px;
-  border-radius: 5px;
-  background-color: #d4d4d4;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.384);
-}
-
 #title {
   display: flex;
   flex-direction: row;
@@ -26,6 +16,10 @@ section {
 .stats {
   flex-direction: column;
   justify-content: space-between;
+}
+
+#controls {
+  margin-top: 10px;
 }
 
 #controls > * {

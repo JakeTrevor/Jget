@@ -12,7 +12,7 @@
 }
 
 body {
-  background: url("/static/assets/background.svg");
+  background: #302930c9;
 }
 
 header {
@@ -22,7 +22,17 @@ header {
   align-items: stretch;
   background-color: white;
   margin-bottom: 10px;
-  box-shadow: 0 3px 5px rgba(255, 255, 255, 0.24);
+  box-shadow: var(--shadow);
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #d4d4d4;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.384);
 }
 
 .link {
@@ -46,6 +56,7 @@ header {
   padding: 20px;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
 }
 
 #auth {
@@ -72,7 +83,7 @@ header {
 
 /* some common styles used around the site */
 .button {
-  background-color: var(--maroon);
+  background-color: #1b1b1b;
   width: fit-content;
   border-radius: 5px;
   border: none;
@@ -84,4 +95,8 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.title {
+  border-bottom: 1px black solid;
 }

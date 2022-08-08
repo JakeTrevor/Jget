@@ -13,7 +13,7 @@
     JGET - get JGET
 {% endblock title %}
 {% block content %}
-    <h1>Downloading the Client</h1>
+    <h1 class="title">Downloading the Client</h1>
     <p>To use JGET, you will need a client that can consume the API provided. There are two options availible.</p>
     <h2>Python client</h2>
     <p>
@@ -33,9 +33,9 @@
             </button>
         </p>
     </code>
-    <h1>Now what?</h1>
+    <h1 class="title">Now what?</h1>
     <p>
-        Once you have downloaded and installed your client of choice, you can start downloading packages as you wish. downloading packages does not require you to log in. If you want to upload however, you will need to log in with the command.
+        Once you have downloaded and installed your client of choice, you can start downloading packages as you wish. downloading packages does not require you to log in. If you want to upload however, you will need to <a href="{% url "registration_register" %}">sign up for an account</a> and log in with the command.
     </p>
     <code>
         <p id="login_command" class="copy_spread">
