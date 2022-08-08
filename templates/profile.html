@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% load package_list %}
+{% block meta %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/package_list.css' %}"/>
+{% endblock meta %}
+{% block title %}
+    JGET - {{ user.get_username }}
+{% endblock title %}
+{% block content %}
+    <h1>{{ user.get_username }}</h1>
+    <p>Owns {{ num_owned }}</p>
+    <p>Contributes to {{ num_contribs }}</p>
+    <section>
+        <h2>User Packages</h2>
+        <h3>All the packages this user owns or contributes to</h3>
+        {% package_list page %}
+    </section>
+{% endblock content %}
