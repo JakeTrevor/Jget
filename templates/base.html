@@ -36,14 +36,11 @@
         <h1>Get JGET</h1>
       </a>
       {% if user.is_authenticated %}
-        <div class="header_item" id="logged_in_profile">
-          <a class="link" id="logout" href="{% url 'auth_logout' %}">
-            <h1>Log Out</h1>
-          </a>
-          <a class="link" href="">Hi {{ user.get_username }}</a>
-        </div>
+        <a id="auth" class="link" href="{% url "frontend:manage_account" %}">
+          <h1>Hi {{ user.get_username }}</h1>
+        </a>
       {% else %}
-        <a class="header_item link" href="{% url 'auth_login' %}">
+        <a id="auth" class="link" href="{% url 'auth_login' %}">
           <h1>Log In</h1>
         </a>
       {% endif %}
