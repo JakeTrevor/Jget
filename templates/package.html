@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    JGET - {{ package.name }}
+{% endblock title %}
+{% block meta %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/package.css' %}"/>
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/code.css' %}"/>
+    <script src="{% static 'scripts/copy.js' %}"></script>
+{% endblock meta %}
+{% block content %}
+    <code>
+        <h1 id="copy_target" class="copy_spread">
+            <div class="code_line">
+                jget get <a class="highlight">{{ package.name }}</a>
+            </div>
+            <button id="copy_button" onclick="copy('copy_target')">
+                <img src={% static "assets/copy.svg" %} height="20em" alt="copy"/>
+            </button>
+        </h1>
+    </code>
+    {% if is_owner or is_contributor %}
+        <section>
+            <h1>Owner Controls</h1>
+            <div id="controls">
+                {% if is_owner %}
+                    <button class="button">Delete</button>
+                    <button class="button">Transfer Ownership</button>
+                {% endif %}
+                {% if is_contributor %}
+                    <button class="button">Add Contributor</button>
+                    {% comment %}  {% endcomment %}
+                {% endif %}
+            </div>
+        </section>
+    {% endif %}
+    <div id="title">
+        <div>
+            <p>
+                Created by <a href="{% url "frontend:profile" package.creator %}">{{ package.creator }}</a>
+            </p>
+            <p>
+                Contributors:
+                {% for author in package.authors.all %}
+                    {% comment %}  {% endcomment %}
+                    <a href="{% url "frontend:profile" author %}">{{ author }}</a>,
+                {% endfor %}
+            </p>
+        </div>
+        <div class="stats">
+            <p id="view_count">{{ package.views }} views</p>
+            <p id="like_count">{{ package.downloads }} downloads</p>
+        </div>
+    </div>
+    <section>
+        <h2>{{ package.files.count }} files</h2>
+        <ul>
+            {% for file in package.files.all %}<p>{{ file.fileName }}</p>{% endfor %}
+        </ul>
+    </section>
+{% endblock content %}

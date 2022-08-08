@@ -32,6 +32,21 @@ class explore(ListView):
         return ["explore.html"]
 
 
+class PackageDetailView(DetailView):
+    slug_field: str = "name"
+    model = Package
+    template_name = "package.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        package: Package = context["package"]
+        context["is_owner"] = package.is_owner(user)
+        context["is_contributor"] = package.is_contributor(user)
+        return context
+
+
 class UserDetailView(DetailView):
     slug_field: str = "username"
     model = User
