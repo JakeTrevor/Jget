@@ -40,7 +40,9 @@
           <h1>Hi {{ user.get_username }}</h1>
         </a>
       {% else %}
-        <a id="auth" class="link" href="{% url 'auth_login' %}">
+        <a id="auth"
+           class="link"
+           href="{% url 'auth_login' %}?next={{ request.get_full_path }}">
           <h1>Log In</h1>
         </a>
       {% endif %}
