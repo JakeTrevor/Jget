@@ -149,4 +149,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
 SIMPLE_BACKEND_REDIRECT_URL = "/"
 
+# mail settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config("GMAIL_USERNAME")
+EMAIL_HOST_PASSWORD = config("GMAIL_APP_PASSWORD")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'jget'
+
+# registration settings
+ACCOUNT_ACTIVATION_DAYS = 10
+REGISTRATION_DEFAULT_FROM_EMAIL = "registration@jget.trevor.fish"
+REGISTRATION_AUTO_LOGIN = True
+
 django_on_heroku.settings(locals(), staticfiles=False)
