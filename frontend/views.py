@@ -1,7 +1,7 @@
 from typing import List, Any, Dict
 
 from django.http import HttpRequest, HttpResponse
-from django.views.generic import DetailView, TemplateView, DeleteView
+from django.views.generic import DetailView, TemplateView, DeleteView, UpdateView
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 
 from api.models import Package
+from frontend.forms import updateContribForm
 from frontend.mixins import isOwnerMixin, SearchableListView
 
 
@@ -58,6 +59,30 @@ class viewPackage(DetailView):
 class deletePackage(isOwnerMixin, DeleteView):
     model = Package
     template_name = "delete.html"
+
+
+class transferOwnership(UpdateView):
+    slug_field: str = "name"
+    model = Package
+    fields = ["creator"]
+    template_name = "update.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Transfer Ownership"
+        return context
+
+
+class addContributor(UpdateView):
+    slug_field: str = "name"
+    model = Package
+    form_class = updateContribForm
+    template_name = "update.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Manage Contributors"
+        return context
 
 
 class UserDetailView(DetailView):

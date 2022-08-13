@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 
@@ -8,7 +9,9 @@ class Package(models.Model):
     name = models.CharField(max_length=120, unique=True)
     creator = models.ForeignKey(
         User, related_name="packages", on_delete=models.CASCADE)
+
     authors = models.ManyToManyField(User, related_name="collaborations")
+
     dependencies = models.ManyToManyField("Package", blank=True)
 
     views = models.IntegerField(default=0)
@@ -25,6 +28,9 @@ class Package(models.Model):
 
     def is_contributor(self, user: User) -> bool:
         return (user in self.authors.all())
+
+    def get_absolute_url(self):
+        return reverse("frontend:package", kwargs={"slug": self.name})
 
 
 class File(models.Model):

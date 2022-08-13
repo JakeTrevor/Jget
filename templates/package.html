@@ -62,12 +62,9 @@
             <div id="controls">
                 {% if is_owner %}
                     <a class="button" href="{% url "frontend:deletePackage" package %}">Delete</a>
-                    <button class="button">Transfer Ownership</button>
+                    <a class="button" href="{% url "frontend:transferOwnership" package %}">Transfer Ownership</a>
                 {% endif %}
-                {% if is_contributor %}
-                    <button class="button">Add Contributor</button>
-                    {% comment %}  {% endcomment %}
-                {% endif %}
+                <a class="button" href="{% url "frontend:addContributor" package %}">Manage Contributors</a>
             </div>
         </section>
     {% endif %}
