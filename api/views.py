@@ -15,6 +15,10 @@ from api.serializers import PackageSerializer
 def getPackage(request: apiRequest, package_name: str) -> apiResponse:
     package = get_object_or_404(Package, name=package_name)
     serializer = PackageSerializer(package)
+
+    package.downloads += 1
+    package.save()
+
     return apiResponse(serializer.data)
 
 

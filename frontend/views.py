@@ -47,6 +47,13 @@ class viewPackage(DetailView):
         context["is_contributor"] = package.is_contributor(user)
         return context
 
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        # this is extremely primitive
+        package: Package = self.get_object()
+        package.views += 1
+        package.save()
+        return super().get(request, *args, **kwargs)
+
 
 class deletePackage(isOwnerMixin, DeleteView):
     model = Package
