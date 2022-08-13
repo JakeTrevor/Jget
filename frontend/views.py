@@ -1,15 +1,15 @@
 from typing import List, Any, Dict
 
 from django.http import HttpRequest, HttpResponse
-from django.views.generic import ListView, DetailView, TemplateView, DeleteView
-from django.shortcuts import render
+from django.views.generic import DetailView, TemplateView, DeleteView
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 
 from django.contrib.auth.models import User
 
 from api.models import Package
-from frontend.mixins import isOwnerMixin
+from frontend.mixins import isOwnerMixin, SearchableListView
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -25,17 +25,12 @@ class get_JGET(TemplateView):
     template_name = "get_jget.html"
 
 
-class explore(ListView):
+class explore(SearchableListView):
     paginate_by: int = 5
     model = Package
 
     def get_template_names(self) -> List[str]:
         return ["explore.html"]
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context["list_title"] = "Popular Packages"
-        return context
 
 
 class viewPackage(DetailView):
@@ -82,6 +77,11 @@ class UserDetailView(DetailView):
         context["page"] = paginator.page(page)
 
         return context
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        if (self.get_object() == request.user):
+            return redirect("frontend:manage_account")
+        return super().get(request, *args, **kwargs)
 
 
 class manageAccount(LoginRequiredMixin, TemplateView):

@@ -7,6 +7,9 @@
     <link rel="stylesheet"
           type="text/css"
           href="{% static 'styles/home.css' %}"/>
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/searchbar.css' %}"/>
 {% endblock meta %}
 <div />
 {% block content %}
@@ -17,4 +20,12 @@
     <div id="introduction">
         <h2>A Package Manager for Computercraft</h2>
     </div>
+    <form action="{% url "frontend:explore" %}" method="get">
+        <div id="searchbar">
+            <input id="input" name="search" placeholder="search for a package"/>
+            <button id="go" type="submit">
+                <img src="{% static "assets/search.svg" %}" height="20em" alt="search"/>
+            </button>
+        </div>
+    </form>
 {% endblock content %}

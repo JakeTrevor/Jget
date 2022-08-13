@@ -5,12 +5,26 @@
     <link rel="stylesheet"
           type="text/css"
           href="{% static 'styles/package_list.css' %}"/>
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/searchbar.css' %}"/>
 {% endblock meta %}
 {% block title %}
     JGET - Explore
 {% endblock title %}
 {% block content %}
-    <h1 class="title">{{ list_title }}</h1>
+    <h1 class="title">Popular Packages</h1>
+    <form action="{% url "frontend:explore" %}" method="get">
+        <div id="searchbar">
+            <input id="input"
+                   name="search"
+                   placeholder="search for a package"
+                   value="{{ request.GET.search }}"/>
+            <button id="go" type="submit">
+                <img src="{% static "assets/search.svg" %}" height="20em" alt="search"/>
+            </button>
+        </div>
+    </form>
     <br/>
     {% package_list page_obj %}
 {% endblock content %}

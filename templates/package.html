@@ -51,7 +51,14 @@
     </section>
     {% if is_owner or is_contributor %}
         <section>
-            <h1 class="title">Owner Controls</h1>
+            <h1 class="title">
+                {% if is_owner %}
+                    Owner
+                {% else %}
+                    Contributor
+                {% endif %}
+                Controls
+            </h1>
             <div id="controls">
                 {% if is_owner %}
                     <a class="button" href="{% url "frontend:deletePackage" package %}">Delete</a>
