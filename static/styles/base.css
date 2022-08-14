@@ -82,6 +82,7 @@ section {
 }
 
 /* some common styles used around the site */
+input[type="submit"],
 .button {
   background-color: #1b1b1b;
   width: fit-content;

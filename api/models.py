@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 
 # Create your models here.
@@ -31,7 +31,7 @@ class Package(models.Model):
         return (user in self.authors.all())
 
     def get_absolute_url(self):
-        return reverse("frontend:package", kwargs={"slug": self.name})
+        return reverse_lazy("frontend:package", kwargs={"slug": self.name})
 
     def getFile(self, fileName: str) -> str:
         f: File = get_object_or_404(self.files, fileName=fileName)

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block meta %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'styles/auth.css' %}"/>
+{% endblock meta %}
+{% block content %}
+    {% block form_title %}
+    {% endblock form_title %}
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+    {% block links %}
+    {% endblock links %}
+{% endblock content %}
