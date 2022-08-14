@@ -21,7 +21,10 @@
                 jget get <a class="highlight">{{ package.name }}</a>
             </div>
             <button id="copy_button" onclick="copy('copy_target')">
-                <img src={% static "assets/copy.svg" %} height="20em" alt="copy"/>
+                <img height="20em"
+                     width="20em"
+                     src="{% static "assets/copy.svg" %}"
+                     alt="copy"/>
             </button>
         </h1>
     </code>
@@ -43,11 +46,38 @@
             <p id="like_count">{{ package.downloads }} downloads</p>
         </div>
     </section>
-    <section>
-        <h1 class="title">{{ package.files.count }} files</h1>
-        <ul>
-            {% for file in package.files.all %}<p>{{ file.fileName }}</p>{% endfor %}
-        </ul>
+    <section id="fileBrowser">
+        {% if file %}
+            <div class="title">
+                <h1>{{ request.GET.file }}</h1>
+                <a href="{% url "frontend:package" package %}">
+                    <img height="20em"
+                         width="20em"
+                         src="{% static "assets/back.svg" %}"
+                         alt="back button"/>
+                </a>
+            </div>
+            <code>
+                {{ file }}
+            </code>
+        {% else %}
+            <div class="title">
+                <h1 >{{ package.files.count }} files</h1>
+                <a>
+                    <img height="20em"
+                         width="20em"
+                         src="{% static "assets/back.svg" %}"
+                         alt="back button"/>
+                </a>
+            </div>
+            <ul>
+                {% for file in package.files.all %}
+                    <li>
+                        <a href="{% url "frontend:package" package %}?file={{ file }}">{{ file }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </section>
     {% if is_owner or is_contributor %}
         <section>

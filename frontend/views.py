@@ -14,7 +14,6 @@ from frontend.mixins import isOwnerMixin, SearchableListView
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    print(request.user)
     context = {
         'developers': User.objects.count(),
         'packages': Package.objects.count(),
@@ -42,10 +41,17 @@ class viewPackage(DetailView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        user = self.request.user
         package: Package = context["package"]
+        user = self.request.user
         context["is_owner"] = package.is_owner(user)
         context["is_contributor"] = package.is_contributor(user)
+
+        fileName = self.request.GET.get("file", None)
+        if fileName == None:
+            context["file"] = False
+        else:
+            context["file"] = package.getFile(fileName)
+
         return context
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
