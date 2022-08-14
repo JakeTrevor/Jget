@@ -1,5 +1,7 @@
 from typing import List, Any, Dict
 
+from datetime import datetime, timedelta
+
 from django.http import HttpRequest, HttpResponse
 from django.views.generic import DetailView, TemplateView, DeleteView, UpdateView
 from django.shortcuts import render, redirect
@@ -54,12 +56,25 @@ class viewPackage(DetailView):
 
         return context
 
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        # this is extremely primitive
-        package: Package = self.get_object()
-        package.views += 1
-        package.save()
-        return super().get(request, *args, **kwargs)
+    def render_to_response(self, context: Dict[str, Any], **response_kwargs: Any) -> HttpResponse:
+        response = super().render_to_response(context, **response_kwargs)
+
+        def handleCookie():
+            package: Package = self.get_object()
+            package.views += 1
+            package.save()
+            response.set_cookie("lastVisit", datetime.now())
+
+        if not ("lastVisit" in self.request.COOKIES):
+            handleCookie()
+        else:
+            lastVisit = self.request.COOKIES["lastVisit"]
+            lastVisit = datetime.strptime(lastVisit[:-7], "%Y-%m-%d %H:%M:%S")
+            delta: timedelta = (datetime.now() - lastVisit)
+            if delta.days > 0:
+                handleCookie()
+
+        return response
 
 
 class deletePackage(isOwnerMixin, DeleteView):
