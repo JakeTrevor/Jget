@@ -11,6 +11,8 @@
           type="text/css"
           href="{% static 'styles/code.css' %}"/>
     <script src="{% static 'scripts/copy.js' %}"></script>
+    <script>const data = {"hello":"different data"}</script>
+    <script src="{% static 'scripts/fileBrowser.js' %}" defer></script>
 {% endblock meta %}
 {% block content %}
     {% block controls %}
@@ -47,6 +49,7 @@
         </div>
     </section>
     <section id="fileBrowser">
+        <div id="fileBrowserRoot"/>
         {% if file %}
             <div class="title">
                 <h1>{{ request.GET.file }}</h1>
