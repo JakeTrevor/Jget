@@ -1,0 +1,15 @@
+import { Meta, Story } from "@storybook/addon-docs";
+
+import Browser from "./Browser";
+
+<Meta title="FileBrowser/Browser" component={Browser} />
+
+# Master browser component
+
+This is the final exported browser component
+
+export const Template = (args) => <Browser {...args} />;
+
+<Story name="Browser" args={{ data: { hello: "yes", dirA: { yes: "no" } } }}>
+  {Template.bind({})}
+</Story>

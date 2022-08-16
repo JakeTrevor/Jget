@@ -1,0 +1,22 @@
+svg {
+  width: 10px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul > :nth-child(even) {
+  background: grey;
+}
+
+li {
+  border-bottom: black solid 1px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+li > * {
+  margin: 10px;
+}

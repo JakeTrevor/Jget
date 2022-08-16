@@ -1,11 +1,18 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import Browser from "./Browser";
+import { createRoot } from "react-dom/client";
 
-ReactDOM.render(
-  <React.StrictMode>
-    {/* @ts-ignore */}
-    <Browser data={data} />
-  </React.StrictMode>,
-  document.getElementById("fileBrowserRoot")
-);
+import Browser from "./Browser/Browser";
+import { Directory } from "./types";
+
+const container = document.getElementById("fileBrowserRoot");
+const root = createRoot(container);
+
+declare var data: string;
+
+data = data.replaceAll("\n", "\\n");
+
+let files: Directory = JSON.parse(data);
+
+console.log(files);
+
+root.render(<Browser data={files} />);
