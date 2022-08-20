@@ -1,16 +1,16 @@
 import React, { FC } from "react";
-import { Directory } from "../types";
 
-import "./FileList.css";
+import "../FileBrowser.css";
 
 import Folder from "../assets/folder.svg";
 import File from "../assets/file.svg";
 
 interface props {
   data: Directory;
+  update: (newDir: string) => void;
 }
 
-let FileList: FC<props> = ({ data }) => {
+let FileList: FC<props> = ({ data, update }) => {
   let keys = Object.keys(data);
 
   let files = keys.filter((each) => typeof data[each] == typeof "");
@@ -24,8 +24,15 @@ let FileList: FC<props> = ({ data }) => {
 
         return (
           <li>
-            {icon}
-            <p>{each}</p>
+            <button
+              onClick={() => {
+                update(each);
+                console.log(each);
+              }}
+            >
+              {icon}
+              <h3>{each}</h3>
+            </button>
           </li>
         );
       })}

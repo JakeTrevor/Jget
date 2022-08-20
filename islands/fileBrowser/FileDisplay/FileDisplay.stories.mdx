@@ -1,0 +1,11 @@
+import { Meta, Story } from "@storybook/addon-docs";
+
+import FileDisplay from "./FileDisplay";
+
+<Meta title="FileBrowser/FileDisplay" component={FileDisplay} />
+
+export const Template = (args) => <FileDisplay {...args} />;
+
+<Story name="FileDisplay" args={{ data: "imagine this is a text" }}>
+  {Template.bind({})}
+</Story>
