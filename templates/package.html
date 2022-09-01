@@ -11,7 +11,9 @@
           type="text/css"
           href="{% static 'styles/code.css' %}"/>
     <script src="{% static 'scripts/copy.js' %}"></script>
-    <script>const data = {"hello":"different data"}</script>
+    <script src="{% static 'scripts/setupData.js' %}"></script>
+    {% comment %} this is very stupid btw {% endcomment %}
+    <script>setup(`{{ package.files }}`)</script>
     <script src="{% static 'scripts/fileBrowser.js' %}" defer></script>
 {% endblock meta %}
 {% block content %}
@@ -38,7 +40,6 @@
             <p>
                 Contributors:
                 {% for author in package.authors.all %}
-                    {% comment %}  {% endcomment %}
                     <a href="{% url "frontend:profile" author %}">{{ author }}</a>,
                 {% endfor %}
             </p>
@@ -50,37 +51,6 @@
     </section>
     <section id="fileBrowser">
         <div id="fileBrowserRoot"/>
-        {% if file %}
-            <div class="title">
-                <h1>{{ request.GET.file }}</h1>
-                <a href="{% url "frontend:package" package %}">
-                    <img height="20em"
-                         width="20em"
-                         src="{% static "assets/back.svg" %}"
-                         alt="back button"/>
-                </a>
-            </div>
-            <code>
-                {{ file }}
-            </code>
-        {% else %}
-            <div class="title">
-                <h1 >{{ package.files.count }} files</h1>
-                <a>
-                    <img height="20em"
-                         width="20em"
-                         src="{% static "assets/back.svg" %}"
-                         alt="back button"/>
-                </a>
-            </div>
-            <ul>
-                {% for file in package.files.all %}
-                    <li>
-                        <a href="{% url "frontend:package" package %}?file={{ file }}">{{ file }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
     </section>
     {% if is_owner or is_contributor %}
         <section>

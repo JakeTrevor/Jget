@@ -13,7 +13,6 @@ interface props {
 let FileList: FC<props> = ({ data, update }) => {
   let keys = Object.keys(data);
 
-  let files = keys.filter((each) => typeof data[each] == typeof "");
   return (
     <ul className="list">
       {keys.map((each) => {
@@ -23,11 +22,10 @@ let FileList: FC<props> = ({ data, update }) => {
         }
 
         return (
-          <li>
+          <li key={each}>
             <button
               onClick={() => {
                 update(each);
-                console.log(each);
               }}
             >
               {icon}

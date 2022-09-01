@@ -8,10 +8,19 @@ const root = createRoot(container);
 
 declare var data: string;
 
-data = data.replaceAll("\n", "\\n");
+let replace = {
+  "&lt;": "<",
+  "&gt;": ">",
+  "&#x27;": "'",
+  "&quot;": '"',
+  "&amp;": "&",
+  "\n": "\\n",
+};
+
+for (let [key, val] of Object.entries(replace)) {
+  data = data.replaceAll(key, val);
+}
 
 let files: Directory = JSON.parse(data);
-
-console.log(files);
 
 root.render(<Browser data={files} />);
