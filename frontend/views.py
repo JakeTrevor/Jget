@@ -48,12 +48,6 @@ class viewPackage(DetailView):
         context["is_owner"] = package.is_owner(user)
         context["is_contributor"] = package.is_contributor(user)
 
-        fileName = self.request.GET.get("file", None)
-        if fileName == None:
-            context["file"] = False
-        else:
-            context["file"] = package.getFile(fileName)
-
         return context
 
     def render_to_response(self, context: Dict[str, Any], **response_kwargs: Any) -> HttpResponse:

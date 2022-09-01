@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from api.models import File, Package
+from api.models import Package
 
 
 class UserRelatedField(serializers.RelatedField):
@@ -24,15 +24,7 @@ class PackageRelatedField(serializers.RelatedField):
         return Package.objects.get(name=data)
 
 
-# todo improve serializer
-class FileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = File
-        fields = ["fileName", "content"]
-
-
 class PackageSerializer(serializers.ModelSerializer):
-    files = FileSerializer(many=True)
     authors = UserRelatedField(many=True)
     dependencies = PackageRelatedField(many=True)
 
@@ -44,7 +36,6 @@ class PackageSerializer(serializers.ModelSerializer):
         depth = 1
 
     def create(self, validated_data):
-        files = validated_data.pop("files", [])
         authors = validated_data.pop("authors", [])
         dependencies = validated_data.pop("dependencies", [])
 
@@ -53,13 +44,10 @@ class PackageSerializer(serializers.ModelSerializer):
         package.authors.set(authors)
         package.dependencies.set(dependencies)
         package.save()
-        for f in files:
-            File(package=package, **f).save()
         return package
 
     def update(self, instance: Package, validated_data):
         user = validated_data.pop("creator")
-        files = validated_data.pop("files", [])
         authors = validated_data.pop("authors", [])
         dependencies = validated_data.pop("dependencies", [])
 
@@ -69,15 +57,6 @@ class PackageSerializer(serializers.ModelSerializer):
         instance.authors.set(authors)
         instance.dependencies.set(dependencies)
         instance.save()
-
-        for f in files:
-            File.objects.update_or_create(package=instance, **f)
-
-        fnames = [each["fileName"] for each in files]
-
-        to_delete = File.objects.filter(
-            package=instance).exclude(fileName__in=fnames)
-        [each.delete() for each in to_delete]
 
         return instance
 
