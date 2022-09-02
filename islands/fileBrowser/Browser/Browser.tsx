@@ -1,4 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
+
+import { useQueryParams, encodeArr, decodeArr } from "../../useParams/index";
 
 import "../FileBrowser.css";
 
@@ -15,10 +17,16 @@ let lookup = (dict: Directory, address: string[]) => {
 };
 
 let Browser: FC<props> = ({ data }) => {
-  let [pointer, setPointer] = useState([]);
+  let [ecodedPointer, setPointer] = useQueryParams("dir");
+  let pointer = decodeArr(ecodedPointer);
 
   let updatePointer = (newVal: string) => {
-    setPointer([...pointer, newVal]);
+    setPointer(encodeArr([...pointer, newVal]));
+  };
+
+  let goUp = () => {
+    let newPointer = pointer.slice(0, -1);
+    setPointer(encodeArr(newPointer));
   };
 
   let curDisplay = lookup(data, pointer);
@@ -34,11 +42,7 @@ let Browser: FC<props> = ({ data }) => {
     <div className="FileBrowser">
       <span>
         <h1>{pointer.at(-1) || "Files"}</h1>
-        <button
-          onClick={() => {
-            setPointer(pointer.slice(0, -1));
-          }}
-        >
+        <button onClick={goUp}>
           <Back />
         </button>
       </span>

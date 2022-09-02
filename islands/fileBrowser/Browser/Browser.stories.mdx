@@ -1,8 +1,13 @@
 import { Meta, Story } from "@storybook/addon-docs";
+import { withQuery } from "@storybook/addon-queryparams";
 
 import Browser from "./Browser";
 
-<Meta title="FileBrowser/Browser" component={Browser} />
+<Meta
+  title="FileBrowser/Browser"
+  component={Browser}
+  decorators={[withQuery]}
+/>
 
 # Master browser component
 
