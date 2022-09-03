@@ -11,7 +11,13 @@ interface props {
 }
 
 let FileList: FC<props> = ({ data, update }) => {
-  let keys = Object.keys(data);
+  let keys = Object.keys(data)
+    .sort()
+    .sort((a, b) => {
+      let valA = typeof data[a] === typeof "" ? 0 : 1;
+      let valB = typeof data[b] === typeof "" ? 0 : 1;
+      return valB - valA;
+    });
 
   return (
     <ul className="list">

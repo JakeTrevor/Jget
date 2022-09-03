@@ -10,6 +10,9 @@ This is the final exported browser component
 
 export const Template = (args) => <FileList {...args} />;
 
-<Story name="FileList" args={{ data: { hello: "yes", dirA: { yes: "no" } } }}>
+<Story
+  name="FileList"
+  args={{ data: { hello: "yes", dirA: { yes: "no" }, dirB: { no: "yes" } } }}
+>
   {Template.bind({})}
 </Story>
