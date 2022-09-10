@@ -27,8 +27,8 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = ["jget.trevor.business", "127.0.0.1"]
-CSRF_ALLOWED_HOSTS = ["https://jget.trevor.business"]
+ALLOWED_HOSTS = ["*.trevor.business", "127.0.0.1"]
+CSRF_ALLOWED_HOSTS = ["https://*.trevor.business"]
 
 
 # Application definition
