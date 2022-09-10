@@ -163,15 +163,16 @@ LOGIN_REDIRECT_URL = "/"
 SIMPLE_BACKEND_REDIRECT_URL = "/"
 
 # mail settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = config("SENDGRID_API_KEY")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'jget'
 
 # registration settings
 ACCOUNT_ACTIVATION_DAYS = 10
-REGISTRATION_DEFAULT_FROM_EMAIL = "registration@jget.trevor.fish"
+REGISTRATION_DEFAULT_FROM_EMAIL = "jget.registration@trevor.business"
 REGISTRATION_AUTO_LOGIN = True
 
 django_on_heroku.settings(locals(), staticfiles=False)
