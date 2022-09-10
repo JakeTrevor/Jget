@@ -28,7 +28,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = ["jget.trevor.business", "127.0.0.1"]
-CSRF_ALLOWED_HOSTS = ["https://*.trevor.business"]
+CSRF_TRUSTED_ORIGINS = ["https://*.trevor.business"]
 
 
 # Application definition
