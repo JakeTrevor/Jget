@@ -1,0 +1,27 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dev",
+      "type": "shell",
+      "command": "./.venv/jget/Scripts/Activate.ps1; py manage.py runserver"
+    },
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "./.venv/jget/Scripts/Activate.ps1; py manage.py collectstatic --no-input"
+    },
+    {
+      "label": "build Islands",
+      "type": "shell",
+      "command": "cd islands; npm run build"
+    },
+    {
+      "label": "storybook",
+      "type": "shell",
+      "command": "cd islands; npm run storybook"
+    }
+  ]
+}
