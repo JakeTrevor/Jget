@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
-import django_on_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +28,9 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = []
+if not DEBUG:
+    ALLOWED_HOSTS = ["jget.trevor.business"]
+    CSRF_ALLOWED_HOSTS = ["https://jget.trevor.business"]
 
 
 # Application definition
@@ -174,5 +176,3 @@ DEFAULT_FROM_EMAIL = 'jget'
 ACCOUNT_ACTIVATION_DAYS = 10
 REGISTRATION_DEFAULT_FROM_EMAIL = "jget.registration@trevor.business"
 REGISTRATION_AUTO_LOGIN = True
-
-django_on_heroku.settings(locals(), staticfiles=False)
