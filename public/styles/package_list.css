@@ -1,0 +1,49 @@
+.package_list {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.package {
+  display: flex;
+  flex-direction: column;
+
+  padding: 12px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+
+  box-shadow: 0 0.5px 1px 1px rgba(0, 0, 0, 10%);
+  background-color: white;
+
+  transition: all 1s;
+}
+
+.package:hover {
+  transform: scale(110%);
+  box-shadow: 0 3px 1px 1px rgba(0, 0, 0, 10%);
+}
+
+.package_link {
+  color: inherit;
+  text-decoration: inherit;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.details {
+  display: flex;
+  font-size: 12px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.detail {
+  margin-right: 16px;
+}
+
+.page_controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}

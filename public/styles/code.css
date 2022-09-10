@@ -1,0 +1,41 @@
+:root {
+  --background: #1b1b1b;
+  --text1: #f5d67b;
+  --text2: #72e0d1;
+}
+
+code {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--background);
+  color: var(--text1);
+  box-shadow: var(--shadow);
+  margin: 10px 0;
+}
+
+.highlight {
+  color: var(--text2);
+}
+
+.copy_spread {
+  display: flex;
+  justify-content: space-between;
+}
+
+.code_line {
+  display: inline;
+}
+
+#copy_button {
+  background: transparent;
+  border: none;
+  transition: all 0.1s;
+}
+
+#copy_button:hover {
+  transform: translateY(-20%);
+}
+
+#copy_button:active {
+  transform: translateY(-30%);
+}

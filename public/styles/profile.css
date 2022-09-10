@@ -1,0 +1,10 @@
+#stats,
+#controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#controls > * {
+  margin: 10px 10px 5px 0;
+}

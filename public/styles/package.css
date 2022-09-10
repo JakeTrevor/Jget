@@ -1,0 +1,41 @@
+.body_container {
+  display: flex;
+  flex-direction: column;
+}
+
+ul {
+  list-style: none;
+}
+
+#title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#package_name {
+  width: fit-content;
+}
+
+.stats {
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#controls {
+  margin: 10px 0;
+}
+
+#controls > * {
+  margin: 5px;
+}
+
+div.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+div.title > h1 {
+  flex: 1;
+}
