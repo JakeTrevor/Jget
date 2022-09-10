@@ -1,0 +1,9 @@
+{
+  "cSpell.words": ["JGET"],
+  "python.formatting.provider": "autopep8",
+  "material-icon-theme.folders.associations": {
+    "jget": "src",
+    "migrations": "python",
+    "islands": "React-components"
+  }
+}
