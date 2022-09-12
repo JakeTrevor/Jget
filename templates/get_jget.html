@@ -15,19 +15,21 @@
 {% block content %}
     <h1 class="title">Downloading the Client</h1>
     <p>To use JGET, you will need a client that can consume the API provided. There are two options availible.</p>
+    <br/>
     <h2>Python client</h2>
     <p>
-        If you are planning on using JGET on your regular desktop (perhaps because you prefer to develop there), then the python client is reccomended. There is a <a>windows installer</a> or an <a>executable</a> if you prefer.
+        If you are planning on using JGET on your regular desktop (perhaps because you prefer to develop there), then the python client is recomended. There is a <a href="{% static 'assets/Jget Installer.exe' %}">windows installer</a> or an <a href="{% static 'assets/jget.exe' %}">executable</a> if you prefer.
     </p>
     <p>
-        If you are on linux (or if this is how you prefer to work),  you can find the source code <a>on my github</a>. I assume, as the gigachad you no doubt are, that you understand how to run/build this so it works for you.
+        If you are on linux (or if you do not trust my nefarious looking executable, or if this is how you prefer to work), you can find the source code <a href="https://github.com/JakeTrevor/JgetClient">on my github</a>. I assume, as the gigachad you no doubt are, that you understand how to run/build the source so it works for you.
     </p>
+    <br/>
     <h2>Lua Client</h2>
-    however, JGET is intended as a package manager for Computercraft, so it also has a client written in lua. the lua client is a single file and you can download it directly onto craftOS with the following command:
-    </  p>
+    However, I am writing annother client for JGET.
+    JGET is intended as a package manager for Computercraft, so it also has a client written in lua. The lua client is a single file and you can download it directly onto craftOS with the following command:
     <code>
         <p id="wget_command" class="copy_spread">
-            wget https://jget.trevor.fish/getjget/jget.lua
+            wget https://jget.trevor.business/get_jget/jget.lua
             <button id="copy_button" onclick="copy('wget_command')">
                 <img height="20em"
                      width="20em"
@@ -36,9 +38,10 @@
             </button>
         </p>
     </code>
+    <br/>
     <h1 class="title">Now what?</h1>
     <p>
-        Once you have downloaded and installed your client of choice, you can start downloading packages as you wish. downloading packages does not require you to log in. If you want to upload however, you will need to <a href="{% url "registration_register" %}">sign up for an account</a> and log in with the command.
+        Once you have downloaded and installed your client of choice, you can start downloading packages as you wish. downloading packages does not require you to log in. If you want to upload however, you will need to <a href="{% url "registration_register" %}">sign up for an account</a> and log in with the following command:
     </p>
     <code>
         <p id="login_command" class="copy_spread">

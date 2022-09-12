@@ -5,6 +5,7 @@ from frontend.views import *
 urlpatterns = [
     path('', index, name="index"),
     path('get_jget/', get_JGET.as_view(), name="get_JGET"),
+    path('get_jget/jget.lua', jget_lua.as_view(), name="jget_lua"),
     path('explore/', explore.as_view(), name="explore"),
 
     path('package/<slug:slug>/', viewPackage.as_view(), name="package"),

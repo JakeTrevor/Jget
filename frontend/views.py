@@ -27,6 +27,10 @@ class get_JGET(TemplateView):
     template_name = "get_jget.html"
 
 
+class jget_lua(TemplateView):
+    template_name = "jget.lua"
+
+
 class explore(SearchableListView):
     paginate_by: int = 5
     model = Package
