@@ -5,5 +5,14 @@
     "jget": "src",
     "migrations": "python",
     "islands": "React-components"
-  }
+  },
+  "Lua.diagnostics.globals": [
+    "settings",
+    "fs",
+    "textutils",
+    "write",
+    "read",
+    "http",
+    "shell"
+  ]
 }

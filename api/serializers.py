@@ -54,6 +54,7 @@ class PackageSerializer(serializers.ModelSerializer):
         if not instance.is_owner(user):
             raise PermissionDenied
 
+        instance.files = validated_data.pop("files")
         instance.authors.set(authors)
         instance.dependencies.set(dependencies)
         instance.save()

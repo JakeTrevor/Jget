@@ -59,10 +59,6 @@ section {
   box-shadow: var(--shadow);
 }
 
-#auth {
-  width: 130px;
-}
-
 #logo {
   height: 8vh;
 }
