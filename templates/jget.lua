@@ -1,7 +1,7 @@
 do --settings block
     settings.define("JGET.setup",
         { description = "flag that tracks weather jget has injected it's path modification", default = false })
-    settings.define("JGET.token", { description = "Token for authenticating actions with JGET", default = "" })
+    settings.define("JGET.token", { description = "Token for authenticating actions with JGET", default = nil })
     settings.define("JGET.username", { description = "Username for JGET", default = "" })
     settings.define("JGET.outdir", { description = "Directory packages are installed into", default = "packages/" })
     settings.define("JGET.endpoint",
@@ -63,21 +63,25 @@ local function install(dirname, files)
     end
 end
 
-local function get_intalled_packages()
+local function get_installed_packages()
     return fs.list(outdir)
 end
 
 local function whoami()
-    if token then
-        print("logged in as " .. user)
-    else
+    if token == nil then
         print("not logged in")
+    else
+        print("logged in as " .. user)
     end
 end
 
 local function list()
+    if (not fs.exists(outdir)) then 
+        print("no packages installed")
+        return
+    end
     print("installed packages:")
-    print(textutils.serialise(get_intalled_packages()))
+    print(textutils.serialise(get_installed_packages()))
 end
 
 local function login(...)
@@ -108,8 +112,42 @@ local function login(...)
     print("login successful")
 end
 
+local function logout(...)
+    if token == nil then
+        print("You are not logged in")
+        return
+    end
+
+    local target_url = endpoint .. "auth/api/logout/"
+    headers = { ["Authorization"] = "Token " .. token }
+    
+    local response, reason, _ = http.post {
+        url = target_url, method = "POST", body="",
+        headers = headers
+    }
+    
+    if not response then
+        print("error: " .. reason)
+        return
+    end
+
+    -- successful logout
+
+    print("Logged out successfully")
+
+    settings.unset("JGET.token")
+    settings.unset("JGET.username")
+    settings.save()
+
+end
+
 local function get(arg)
     local package = arg[2]
+
+    if package == nil then
+        print("please provide a package to install")
+        return
+    end
 
     print("getting package " .. package)
 
@@ -141,7 +179,7 @@ local function get(arg)
 
 
     local dependencies = data["dependencies"]
-    local installed_packages = Set(get_intalled_packages())
+    local installed_packages = Set(get_installed_packages())
 
     for _, package in ipairs(dependencies) do
         if not installed_packages[package] then
@@ -174,7 +212,12 @@ local function addDependencies()
         return
     end
 
-    local dependencies = get_intalled_packages()
+    if not fs.exists(shell.resolve(outdir)) then
+        print("No packages installed")
+        return
+    end
+
+    local dependencies = get_installed_packages()
 
     print("Adding the follwing packages as dependencies:")
 
@@ -274,6 +317,9 @@ local function setup()
     --amend startup from here
     
     ]]
+        if (not fs.exists("startup.lua")) then
+            fs.open("startup.lua", "w").close()
+        end
         local startup_file = fs.open("startup.lua", "r")
 
         local contents = startup_file.readAll()
@@ -381,6 +427,7 @@ local commands = {
     ["list"] = list,
     ["login"] = login,
     ["whoami"] = whoami,
+    ["logout"]=logout,
     ["get"] = get,
     ["put"] = put,
     ["init"] = init,
