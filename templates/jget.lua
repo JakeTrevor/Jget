@@ -313,7 +313,7 @@ local function setup()
     if not settings.get("JGET.setup") then
         local injection =
         [[--this section amends the path so that jget packages can be imported without referencing 'packages/'
-    shell.setPath(shell.path()..":packages/")
+    shell.setPath(shell.path()..":packages/:/")
     --amend startup from here
     
     ]]
