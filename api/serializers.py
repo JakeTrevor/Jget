@@ -25,7 +25,6 @@ class PackageRelatedField(serializers.RelatedField):
 
 
 class PackageSerializer(serializers.ModelSerializer):
-    authors = UserRelatedField(many=True)
     dependencies = PackageRelatedField(many=True)
 
     class Meta:

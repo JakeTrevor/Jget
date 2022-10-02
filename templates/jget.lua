@@ -3,14 +3,14 @@ do --settings block
         { description = "flag that tracks weather jget has injected it's path modification", default = false })
     settings.define("JGET.token", { description = "Token for authenticating actions with JGET", default = nil })
     settings.define("JGET.username", { description = "Username for JGET", default = "" })
-    settings.define("JGET.outdir", { description = "Directory packages are installed into", default = "packages/" })
+    settings.define("JGET.outdir", { description = "Directory packages are installed into", default = "./packages/" })
     settings.define("JGET.endpoint",
         { description = "Location of JGET webserver. Uses master server as default",
             default = "https://jget.trevor.business/" })
 end
 
 local endpoint = settings.get("JGET.endpoint")
-local outdir = settings.get("JGET.outdir")
+local outdir = shell.resolve(settings.get("JGET.outdir"))
 local user = settings.get("JGET.username")
 local token = settings.get("JGET.token")
 
@@ -41,45 +41,7 @@ local function ensure(dirname)
     end
 end
 
-local function install(dirname, files)
-    ensure(dirname)
-    for fname, value in pairs(files) do
-        local file_path = fs.combine(dirname, fname)
-        if type(value) == "string" then
-            --its a file
-            local file = fs.open(file_path, "w")
-            file.write(value)
-            file.close()
-
-        else
-            --its a directory
-            install(file_path, value)
-        end
-
-    end
-end
-
-local function get_installed_packages()
-    return fs.list(outdir)
-end
-
-local function whoami()
-    if token == nil then
-        print("not logged in")
-    else
-        print("logged in as " .. user)
-    end
-end
-
-local function list()
-    if (not fs.exists(outdir)) then
-        print("no packages installed")
-        return
-    end
-    print("installed packages:")
-    print(textutils.serialise(get_installed_packages()))
-end
-
+-- auth commands:
 local function login(...)
     write("username: ")
     local username = read()
@@ -115,7 +77,7 @@ local function logout(...)
     end
 
     local target_url = endpoint .. "auth/api/logout/"
-    headers = { ["Authorization"] = "Token " .. token }
+    local headers = { ["Authorization"] = "Token " .. token }
 
     local response, reason, _ = http.post {
         url = target_url, method = "POST", body = "",
@@ -135,6 +97,45 @@ local function logout(...)
     settings.unset("JGET.username")
     settings.save()
 
+end
+
+local function whoami()
+    if token == nil then
+        print("not logged in")
+    else
+        print("logged in as " .. user)
+    end
+end
+
+local function install(dirname, files)
+    ensure(dirname)
+    for fname, value in pairs(files) do
+        local file_path = fs.combine(dirname, fname)
+        if type(value) == "string" then
+            --its a file
+            local file = fs.open(file_path, "w")
+            file.write(value)
+            file.close()
+
+        else
+            --its a directory
+            install(file_path, value)
+        end
+
+    end
+end
+
+local function get_installed_packages()
+    return fs.list(outdir)
+end
+
+local function list()
+    if (not fs.exists(outdir)) then
+        print("no packages installed")
+        return
+    end
+    print("installed packages:")
+    print(textutils.serialise(get_installed_packages()))
 end
 
 local function get(arg)
@@ -167,7 +168,6 @@ local function get(arg)
     local data = textutils.unserialiseJSON(response.readAll())
     local files = textutils.unserialiseJSON(data["files"])
 
-    local outdir = shell.resolve(outdir)
     ensure(outdir)
 
     local install_dir = fs.combine(outdir, package)
@@ -207,7 +207,7 @@ local function addDependencies()
         return
     end
 
-    if not fs.exists(shell.resolve(outdir)) then
+    if not fs.exists(outdir) then
         print("No packages installed")
         return
     end
@@ -357,6 +357,15 @@ whoami
 useage:
 'jget whoami'
 ]]   ,
+    ["logout"] = [[
+logout
+- this command logs you out;
+- this invalidates your current authentication token
+- if you are not logged it, it will also tell you.
+
+useage:
+'jget logout'
+]]   ,
     ["get"] = [[
 get
 - requests the specified package from the jget repo (defined by the endpoint)
@@ -405,10 +414,20 @@ useage:
 }
 
 local function jget_help(arg)
-    local commad = arg[2]
-    if help_dict[commad] then
+    local command = arg[2]
+
+    if not command then
         print()
-        print(help_dict[commad])
+        print("You need to enter the command you want help on. Use 'jget' for list of commands")
+        print()
+        print("or type 'jget help help' for information on how to use this command")
+        print()
+        return
+    end
+
+    if help_dict[command] then
+        print()
+        print(help_dict[command])
     else
         print()
         print("Command not recognised. Use 'jget' for list of commands")
