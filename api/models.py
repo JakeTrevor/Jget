@@ -1,12 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
-
-# Create your models here.
+from django.core.validators import validate_slug
 
 
 class Package(models.Model):
-    name = models.CharField(max_length=120, unique=True)
+    name = models.CharField(max_length=120, unique=True, validators=[validate_slug])
     creator = models.ForeignKey(
         User, related_name="packages", on_delete=models.CASCADE)
 

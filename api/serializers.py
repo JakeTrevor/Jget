@@ -31,42 +31,28 @@ class PackageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Package
         fields = [
-            "name", "dependencies", "files", "authors"
+            "name", "dependencies", "files"
         ]
         depth = 1
 
     def create(self, validated_data):
-        authors = validated_data.pop("authors", [])
         dependencies = validated_data.pop("dependencies", [])
 
         package = Package(**validated_data)
         package.save()
-        package.authors.set(authors)
         package.dependencies.set(dependencies)
         package.save()
         return package
 
     def update(self, instance: Package, validated_data):
         user = validated_data.pop("creator")
-        authors = validated_data.pop("authors", [])
         dependencies = validated_data.pop("dependencies", [])
 
         if not instance.is_owner(user):
             raise PermissionDenied
 
         instance.files = validated_data.pop("files")
-        instance.authors.set(authors)
         instance.dependencies.set(dependencies)
         instance.save()
 
         return instance
-
-    def __init__(self, *args, **kwargs):
-        exclude = kwargs.pop('exclude', None)
-        super().__init__(*args, **kwargs)
-
-        if exclude is not None:
-            # Drop any fields that are not specified in the `fields` argument.
-            disallowed = set(exclude)
-            for field_name in disallowed:
-                self.fields.pop(field_name)

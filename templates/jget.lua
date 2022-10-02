@@ -7,16 +7,12 @@ do --settings block
     settings.define("JGET.endpoint",
         { description = "Location of JGET webserver. Uses master server as default",
             default = "https://jget.trevor.business/" })
-    settings.define("JGET.use_cache",
-        { description = "refer to a cache server (if one exists) for credentials", default = true })
-    settings.save()
 end
 
 local endpoint = settings.get("JGET.endpoint")
 local outdir = settings.get("JGET.outdir")
 local user = settings.get("JGET.username")
 local token = settings.get("JGET.token")
-local use_cache = settings.get("JGET.use_cache")
 
 
 local function encode64(data)
@@ -76,7 +72,7 @@ local function whoami()
 end
 
 local function list()
-    if (not fs.exists(outdir)) then 
+    if (not fs.exists(outdir)) then
         print("no packages installed")
         return
     end
@@ -120,12 +116,12 @@ local function logout(...)
 
     local target_url = endpoint .. "auth/api/logout/"
     headers = { ["Authorization"] = "Token " .. token }
-    
+
     local response, reason, _ = http.post {
-        url = target_url, method = "POST", body="",
+        url = target_url, method = "POST", body = "",
         headers = headers
     }
-    
+
     if not response then
         print("error: " .. reason)
         return
@@ -194,7 +190,6 @@ local function init()
     local name = read()
     local data = {
         name = name,
-        authors = { user },
         dependencies = textutils.empty_json_array
     }
 
@@ -246,7 +241,7 @@ local function get_files(path)
     local data = {}
     local file_names = fs.list(path)
     for _, file_name in ipairs(file_names) do
-        if not ((file_name == "package.jget") or (file_name == "packages")) then
+        if not (file_name == "packages") then
             local file_path = fs.combine(path, file_name)
             if fs.isDir(file_path) then
                 data[file_name] = get_files(file_path)
@@ -427,7 +422,7 @@ local commands = {
     ["list"] = list,
     ["login"] = login,
     ["whoami"] = whoami,
-    ["logout"]=logout,
+    ["logout"] = logout,
     ["get"] = get,
     ["put"] = put,
     ["init"] = init,

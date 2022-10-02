@@ -25,8 +25,7 @@
     </p>
     <br/>
     <h2>Lua Client</h2>
-    However, I am writing annother client for JGET.
-    JGET is intended as a package manager for Computercraft, so it also has a client written in lua. The lua client is a single file and you can download it directly onto craftOS with the following command:
+    However, JGET is intended as a package manager for Computercraft, and so it it would be rather useless without a client written in lua. The lua client is a single file and you can download it directly onto craftOS with the following command:
     <code>
         <p id="wget_command" class="copy_spread">
             wget https://jget.trevor.business/get_jget/jget.lua
@@ -41,7 +40,7 @@
     <br/>
     <h1 class="title">Now what?</h1>
     <p>
-        Once you have downloaded and installed your client of choice, you can start downloading packages as you wish. downloading packages does not require you to log in. If you want to upload however, you will need to <a href="{% url "registration_register" %}">sign up for an account</a> and log in with the following command:
+        Once you have downloaded and installed your client of choice, you can start downloading packages as you wish. Downloading packages does not require you to log in. If you want to upload however, you will need to <a href="{% url "registration_register" %}">sign up for an account</a> and log in with the following command:
     </p>
     <code>
         <p id="login_command" class="copy_spread">
@@ -54,5 +53,5 @@
             </button>
         </p>
     </code>
-    <p>both clients have extensive built-in help, which can be accessed with the "-h" flag.</p>
+    <p>Both clients have extensive built-in help, which can be accessed with the "help" command.</p>
 {% endblock content %}
