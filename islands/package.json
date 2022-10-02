@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "all interactive islands/components used on JGET site",
   "scripts": {
-    "build": "webpack --mode=production --node-env=production",
+    "build": "webpack --mode=production --node-env=production --watch",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",

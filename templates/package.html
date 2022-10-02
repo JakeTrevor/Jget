@@ -11,9 +11,6 @@
           type="text/css"
           href="{% static 'styles/code.css' %}"/>
     <script src="{% static 'scripts/copy.js' %}"></script>
-    <script src="{% static 'scripts/setupData.js' %}"></script>
-    {% comment %} this is very stupid btw {% endcomment %}
-    <script>setup(`{{ package.files }}`)</script>
     <script src="{% static 'scripts/fileBrowser.js' %}" defer></script>
 {% endblock meta %}
 {% block content %}
