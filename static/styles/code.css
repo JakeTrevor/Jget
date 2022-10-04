@@ -4,7 +4,7 @@
   --text2: #72e0d1;
 }
 
-code {
+.code {
   padding: 20px;
   border-radius: 10px;
   background-color: var(--background);

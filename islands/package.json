@@ -1,46 +1,30 @@
 {
-  "name": "jget_islands",
-  "version": "1.0.0",
-  "description": "all interactive islands/components used on JGET site",
   "scripts": {
-    "build": "webpack --mode=production --node-env=production --watch",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
-    "watch": "webpack --watch",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build": "rollup --config rollup.config.ts --configPlugin typescript"
   },
-  "keywords": [],
-  "author": "JakeTrevor <Jacob.Trevor234@gmail.com>",
-  "license": "ISC",
   "dependencies": {
-    "@storybook/addon-queryparams": "^6.2.9",
+    "@babel/core": "^7.19.3",
+    "@babel/preset-react": "^7.18.6",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@svgr/rollup": "^6.4.0",
+    "babel": "^6.23.0",
+    "highlight.js": "^11.6.0",
+    "postcss": "^8.4.17",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-markdown": "^8.0.3",
+    "rollup": "^2.79.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.10",
-    "@storybook/addon-actions": "^6.5.10",
-    "@storybook/addon-essentials": "^6.5.10",
-    "@storybook/addon-interactions": "^6.5.10",
-    "@storybook/addon-links": "^6.5.10",
-    "@storybook/builder-webpack5": "^6.5.10",
-    "@storybook/manager-webpack5": "^6.5.10",
-    "@storybook/react": "^6.5.10",
-    "@storybook/testing-library": "^0.0.13",
-    "@svgr/webpack": "^6.3.1",
-    "@types/node": "^18.7.4",
-    "@types/react": "^18.0.17",
+    "@rollup/plugin-typescript": "^8.5.0",
+    "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
-    "@types/webpack": "^5.28.0",
-    "@webpack-cli/generators": "^2.5.0",
-    "babel-loader": "^8.2.5",
-    "css-loader": "^6.7.1",
-    "prettier": "^2.3.2",
-    "ts-loader": "^9.3.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.7.4",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
+    "rollup-plugin-polyfill-node": "^0.10.2"
   }
 }

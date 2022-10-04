@@ -10,13 +10,14 @@
     <link rel="stylesheet"
           type="text/css"
           href="{% static 'styles/code.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/atom-one-dark.min.css">
     <script src="{% static 'scripts/copy.js' %}"></script>
     <script src="{% static 'scripts/fileBrowser.js' %}" defer></script>
 {% endblock meta %}
 {% block content %}
     {% block controls %}
     {% endblock controls %}
-    <code>
+    <code class="code">
         <h1 id="copy_target" class="copy_spread">
             <div class="code_line">
                 jget get <a class="highlight">{{ package.name }}</a>

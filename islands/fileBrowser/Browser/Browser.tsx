@@ -1,49 +1,68 @@
 import React, { FC } from "react";
 
-import { useQueryParams, encodeArr, decodeArr } from "../../useParams/index";
-
-import "../FileBrowser.css";
-
 import Back from "../assets/back.svg";
 import FileList from "../FileList/FileList";
 import FileDisplay from "../FileDisplay/FileDisplay";
 
-interface props {
+import styles from "./Browser.module.css";
+import useQueryParam from "../useQueryParam/useQueryParam";
+
+export interface browserProps {
   data: Directory;
 }
 
-let lookup = (dict: Directory, address: string[]) => {
-  return address.reduce((acc, val) => acc[val], dict);
-};
+export function encodeArr(arr: string[]): string {
+  return JSON.stringify(arr);
+}
 
-let Browser: FC<props> = ({ data }) => {
-  let [ecodedPointer, setPointer] = useQueryParams("dir");
-  let pointer = decodeArr(ecodedPointer);
+export function decodeArr(arrStr: string): string[] {
+  if (!arrStr) return [];
+  return JSON.parse(arrStr);
+}
 
-  let updatePointer = (newVal: string) => {
-    setPointer(encodeArr([...pointer, newVal]));
+function lookup(dict: Directory, address: string[]): string | Directory {
+  let reducer = (acc: Directory | string, val: string) => {
+    if (typeof acc === "string") return acc;
+    return acc[val];
   };
 
-  let goUp = () => {
+  return address.reduce(reducer, dict);
+}
+
+let Browser: FC<browserProps> = ({ data }) => {
+  let [encodedPointer, setPointer] = useQueryParam("dir");
+  let pointer = decodeArr(encodedPointer);
+
+  function updatePointer(newVal: string) {
+    setPointer(encodeArr([...pointer, newVal]));
+  }
+
+  function goUp() {
     let newPointer = pointer.slice(0, -1);
     setPointer(encodeArr(newPointer));
-  };
+  }
 
   let curDisplay = lookup(data, pointer);
 
+  let leaf = pointer.at(-1);
+
+  let isMarkdown = false;
+  if (leaf) isMarkdown = leaf.endsWith(".md");
+
   let child =
     typeof curDisplay == "string" ? (
-      <FileDisplay data={curDisplay} />
+      <FileDisplay data={curDisplay} isMarkdown={isMarkdown} />
     ) : (
       <FileList data={curDisplay as Directory} update={updatePointer} />
     );
 
   return (
-    <div className="FileBrowser">
-      <span>
-        <h1>{pointer.at(-1) || "Files"}</h1>
-        <button onClick={goUp}>
-          <Back />
+    <div className={styles.browser}>
+      <span className={styles.title}>
+        <h1>{leaf || "Files"}</h1>
+        <button className={styles.button} onClick={goUp}>
+          {/* @ts-ignore */}
+          <Back className={styles.svg} />
         </button>
       </span>
       {child}

@@ -1,0 +1,24 @@
+.browser {
+  padding: 0 10px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.svg {
+  width: 20px;
+}

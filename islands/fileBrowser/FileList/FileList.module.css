@@ -1,0 +1,61 @@
+:root {
+  --color: #abb2bf;
+  --background: hsl(220, 13%, 18%);
+  --light-background: hsl(220, 13%, 28%);
+}
+.list {
+  list-style-type: none;
+  padding: 0;
+  color: var(--color);
+  background-color: var(--background);
+  border-radius: 5px;
+  box-shadow: 0 3px 5px rgb(0 0 0 / 38%);
+}
+
+.item {
+  background-color: var(--background);
+  transition: all 1s;
+}
+
+.item + .item {
+  border-top: black solid 1px;
+}
+
+.item:nth-child(even) {
+  background-color: var(--light-background);
+}
+
+.item:first-child {
+  border-radius: 5px 5px 0 0;
+}
+
+.item:last-child {
+  border-radius: 0 0 5px 5px;
+}
+
+.item:hover {
+  scale: 105%;
+  z-index: 10;
+  border-radius: 5px;
+  border: none;
+}
+
+.fileButton {
+  cursor: pointer;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  background: none;
+  outline: none;
+  border: none;
+}
+
+.fileButton > * {
+  margin: 10px;
+}
+.svg {
+  width: 10px;
+  fill: var(--color);
+}

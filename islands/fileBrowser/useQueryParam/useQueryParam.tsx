@@ -11,7 +11,7 @@ function updateQueryParam(key: string, value: string): void {
   window.history.pushState({}, "", url);
 }
 
-export function useQueryParams(
+function useQueryParam(
   key: string,
   initValue: string = ""
 ): [string, (newValue: string) => void] {
@@ -20,7 +20,6 @@ export function useQueryParams(
 
   let update = useCallback(
     (newValue: string) => {
-      console.log(newValue);
       updateQueryParam(key, newValue);
       setValue(newValue);
     },
@@ -30,13 +29,4 @@ export function useQueryParams(
   return [value, update];
 }
 
-export function encodeArr(arr: string[]): string {
-  return JSON.stringify(arr);
-}
-
-export function decodeArr(arrStr: string): string[] {
-  if (arrStr) {
-    return JSON.parse(arrStr);
-  }
-  return [];
-}
+export default useQueryParam;
