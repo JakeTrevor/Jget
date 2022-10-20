@@ -207,6 +207,7 @@ local function init(args)
     file.write(json_data)
     file.close()
     print("Initialised package " .. package_name)
+    print("in packages/" .. package_name)
 end
 
 local function addDependencies(args)
@@ -418,9 +419,10 @@ useage:
 ]]   ,
     ["put"] = [[
 put
-- assuming the current directory is setup as a jget package, it will be uploaded to the jget repo
+- specify a package to to be uploaded
+- that package will then be sent to the JGET repo
 - this requires you to be logged in (to track ownership), 
-- the current directory must be a valid package - see help on 'init'
+- the package specified must be valid package - see help on 'init'
 - if the package already exists on the repo, and the user has editing permissions, then the package will be updated
 
     useage:
@@ -433,7 +435,7 @@ init
 - this must be done before uploading the package (see 'put') or adding dependencies (see 'addDeps')
 
 useage:
-'jget init <package name>'
+'jget init <package name>x'
 ]]   ,
     ["addDeps"] = [[
 addDeps
