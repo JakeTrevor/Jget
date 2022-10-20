@@ -185,24 +185,41 @@ local function get(arg)
 
 end
 
-local function init()
-    write("Package name:")
-    local name = read()
+local function init(args)
+    local package_name = args[2]
+
+    if not package_name then
+        write("Please provide a package")
+        return
+    end
+
+    ensure("packages/")
+    ensure("packages/" .. package_name)
+
     local data = {
-        name = name,
+        name = package_name,
         dependencies = textutils.empty_json_array
     }
 
     local json_data = textutils.serialiseJSON(data)
 
-    local file = fs.open(shell.resolve("./package.jget"), "w")
+    local file = fs.open(shell.resolve("packages/" .. package_name .. "/package.jget"), "w")
     file.write(json_data)
     file.close()
+    print("Initialised package " .. package_name)
 end
 
-local function addDependencies()
+local function addDependencies(args)
+    local package_name = args[2]
 
-    if not fs.exists(shell.resolve("./package.jget")) then
+    if not package_name then
+        write("Please provide a package")
+        return
+    end
+
+    local jgetfile = "packages/" .. package_name .. "/package.jget"
+
+    if not fs.exists(shell.resolve(jgetfile)) then
         print("Please initialise the project first with command 'jget init'")
         return
     end
@@ -214,13 +231,21 @@ local function addDependencies()
 
     local dependencies = get_installed_packages()
 
+    -- removes self from this list
+    for i, v in ipairs(dependencies) do
+        if v == package_name then
+            dependencies.remove(i)
+            break
+        end
+    end
+
     print("Adding the follwing packages as dependencies:")
 
     for _, package in ipairs(dependencies) do
         print(package)
     end
 
-    local file = fs.open(shell.resolve("./package.jget"), "r")
+    local file = fs.open(shell.resolve(jgetfile), "r")
 
     local json_data = file.readAll()
     file.close()
@@ -231,7 +256,7 @@ local function addDependencies()
 
     local new_json = textutils.serialiseJSON(data)
 
-    file = fs.open(shell.resolve("./package.jget"), "w")
+    file = fs.open(shell.resolve(jgetfile), "w")
 
     file.write(new_json)
     file.close()
@@ -255,26 +280,36 @@ local function get_files(path)
     return data
 end
 
-local function put()
+local function put(args)
+    local package_name = args[2]
+
+    if not package_name then
+        write("Please provide a package")
+        return
+    end
+
     if not token then
         print("You must be logged in to make put requests")
         print("Log in with 'jget login'")
         return
     end
 
-    if not fs.exists(shell.resolve("./package.jget")) then
+
+    local jgetfile = "packages/" .. package_name .. "/package.jget"
+
+    if not fs.exists(shell.resolve(jgetfile)) then
         print("This directory is not a package")
-        print("Please initialise first with 'jget init'")
+        print("Please initialise first with 'jget init " .. package_name .. "'")
         return
     end
 
-    local file = fs.open(shell.resolve("./package.jget"), "r")
+    local file = fs.open(shell.resolve(jgetfile), "r")
     local json_data = file.readAll()
     file.close()
 
     local data = textutils.unserialiseJSON(json_data)
     --get files
-    local current_directory = shell.resolve(".")
+    local current_directory = shell.resolve("./packages/" .. package_name)
 
     local files = get_files(current_directory)
 
@@ -307,9 +342,9 @@ end
 local function setup()
     if not settings.get("JGET.setup") then
         local injection =
-        [[--this section amends the path so that jget packages can be imported without referencing 'packages/'
-    shell.setPath(shell.path()..":packages/:/")
-    --amend startup from here
+        [[--this section amends the path so that jget can be run anywhere
+shell.setPath(shell.path()..":/")
+--amend startup from here
     
     ]]
         if (not fs.exists("startup.lua")) then
@@ -329,6 +364,12 @@ local function setup()
 
         settings.set("JGET.setup", true)
         settings.save()
+
+        print("JGET was just run for the first time on this computer.")
+        print("This computer will now reboot to initialise settings.")
+        print("You will have to run the previous command again, as it was not executed.")
+        sleep(2)
+        os.reboot()
     end
 end
 
@@ -387,26 +428,30 @@ put
 ]]   ,
     ["init"] = [[
 init
-- creates a package.jget file in the current directory which contains information required for uploading
+- creates a package.jget file in the specified package, which contains information required for uploading
 - it will prompt you for a package name; this must be a valid url segment
 - this must be done before uploading the package (see 'put') or adding dependencies (see 'addDeps')
 
 useage:
-'jget init'
+'jget init <package name>'
 ]]   ,
     ["addDeps"] = [[
 addDeps
 - short for 'add dependencies'
+- specify a package, and auto-fill dependencies
 - gets a list of all packages installed in this directory and adds them to the package.jget file as dependencies
 - this can only be done if the package is already initialised (see help on 'init')
 
 useage:
-'jget addDeps'
+'jget addDeps <package name>'
 ]]   ,
     ["help"] = [[
 help
 - you are already using this command!
 - given a command, will print availible help information for that command
+
+- if you're looking for more information about using JGET, checkout the documentation:
+https://jget.trevor.business/get_jget/
 
 useage:
 'jget help <command>'
@@ -450,7 +495,7 @@ local commands = {
 }
 
 
-local function main(arg)
+local function main(args)
     setup()
 
     local command = arg[1]
@@ -467,7 +512,7 @@ local function main(arg)
     end
 
     if commands[command] then
-        commands[command](arg)
+        commands[command](args)
     else
         print("unrecognised command: " .. command)
 

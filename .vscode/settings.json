@@ -13,6 +13,7 @@
     "write",
     "read",
     "http",
-    "shell"
+    "shell",
+    "sleep"
   ]
 }
